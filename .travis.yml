@@ -13,6 +13,7 @@ install:
 script:
   - npm run deploy:dev
   - npm run deploy:prod
+  - npm run deploy:prod-ssr
 
 after_success:
   - npm run codecov
