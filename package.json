@@ -9,6 +9,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
+    "clean-ssr": "rimraf dist_ssr",
     "compile": "better-npm-run compile",
     "lint": "eslint bin build config server src tests",
     "lint:fix": "npm run lint -- --fix",
@@ -37,7 +38,7 @@
       }
     },
     "deploy": {
-      "command": "npm run lint && npm run test && npm run clean && npm run compile",
+      "command": "npm run lint && npm run test && npm run \"clean$SSR_SUFFIX\" && npm run compile",
       "env": {
         "DEBUG": "app:*"
       }
@@ -61,6 +62,7 @@
       "env": {
         "NODE_ENV": "production",
         "SSR": "true",
+        "SSR_SUFFIX": "-ssr",
         "DEBUG": "app:*"
       }
     },
