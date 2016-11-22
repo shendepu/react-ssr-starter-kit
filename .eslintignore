@@ -2,4 +2,6 @@ blueprints/**/files/**
 coverage/**
 node_modules/**
 dist/**
+dist_ssr/**
 src/index.html
+*.test.js
