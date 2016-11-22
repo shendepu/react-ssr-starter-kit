@@ -142,7 +142,7 @@ webpackConfig.plugins.push(
 // Loaders
 // ------------------------------------
 // JavaScript / JSON
-webpackConfig.module.loaders = [{
+webpackConfig.module.rules = [{
   test    : /\.(js|jsx)$/,
   exclude : /node_modules/,
   loader  : 'babel',
@@ -159,20 +159,20 @@ webpackConfig.module.loaders = [{
 // css-loader not to duplicate minimization.
 const BASE_CSS_LOADER = 'css?sourceMap&-minimize'
 
-webpackConfig.module.loaders.push({
+webpackConfig.module.rules.push({
   test    : /\.scss$/,
   exclude : null,
-  loaders : [
+  use : [
     'style',
     BASE_CSS_LOADER,
     'postcss',
     'sass?sourceMap'
   ]
 })
-webpackConfig.module.loaders.push({
+webpackConfig.module.rules.push({
   test    : /\.css$/,
   exclude : null,
-  loaders : [
+  use : [
     'style',
     BASE_CSS_LOADER,
     'postcss'
@@ -181,7 +181,7 @@ webpackConfig.module.loaders.push({
 
 // File loaders
 /* eslint-disable */
-webpackConfig.module.loaders.push(
+webpackConfig.module.rules.push(
   { test: /\.woff(\?.*)?$/,  loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff' },
   { test: /\.woff2(\?.*)?$/, loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff2' },
   { test: /\.otf(\?.*)?$/,   loader: 'file?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=font/opentype' },
@@ -200,13 +200,13 @@ webpackConfig.module.loaders.push(
 // http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
 if (!__DEV__) {
   debug('Apply ExtractTextPlugin to CSS loaders.')
-  webpackConfig.module.loaders.filter((loader) =>
-    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
-  ).forEach((loader) => {
-    const first = loader.loaders[0]
-    const rest = loader.loaders.slice(1)
-    loader.loader = ExtractTextPlugin.extract({ fallbackLoader: first, loader: rest })
-    delete loader.loaders
+  webpackConfig.module.rules.filter((rule) =>
+    rule.use && rule.use.find((name) => /css/.test(name.split('?')[0]))
+  ).forEach((rule) => {
+    const first = rule.use[0]
+    const rest = rule.use.slice(1)
+    rule.loader = ExtractTextPlugin.extract({ fallbackLoader: first, loader: rest })
+    delete rule.use
   })
 
   webpackConfig.plugins.push(

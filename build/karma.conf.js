@@ -34,7 +34,7 @@ const karmaConfig = {
       noParse : [
         /\/sinon\.js/
       ],
-      loaders : webpackConfig.module.loaders.concat([
+      rules : webpackConfig.module.rules.concat([
         {
           test   : /sinon(\\|\/)pkg(\\|\/)sinon\.js/,
           loader : 'imports?define=>false,require=>false'
@@ -59,12 +59,12 @@ const karmaConfig = {
 
 if (config.globals.__COVERAGE__) {
   karmaConfig.reporters.push('coverage')
-  karmaConfig.webpack.module.loaders.push = [{
+  karmaConfig.webpack.module.rules.push = [{
     test    : /\.(js|jsx)$/,
     include : new RegExp(config.dir_client),
     loader  : 'babel',
     enforce : 'pre',
-    query   : Object.assign({}, config.compiler_babel, {
+    options : Object.assign({}, config.compiler_babel, {
       plugins : (config.compiler_babel.plugins || []).concat('istanbul')
     })
   }]
