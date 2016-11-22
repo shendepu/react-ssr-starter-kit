@@ -21,6 +21,7 @@
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
     "deploy:prod-ssr": "better-npm-run deploy:prod-ssr",
+    "copy:moqui": "better-npm-run copy:moqui",
     "codecov": "cat coverage/*/lcov.info | codecov"
   },
   "betterScripts": {
@@ -66,6 +67,10 @@
         "DEBUG": "app:*"
       }
     },
+    "copy:moqui": {
+      "command": "rm -Rf $MOQUI_REACT_SSR_ROOT/dist && cp -R dist $MOQUI_REACT_SSR_ROOT && rm -Rf $MOQUI_REACT_SSR_ROOT/dsit_ssr && cp -R dist_ssr $MOQUI_REACT_SSR_ROOT",
+      "_comment": "Add .env file in root folder and configure set MOQUI_REACT_SSR_ROOT to parent folder dist and dist_ssr in moqui react ssr application."
+    },
     "start": {
       "command": "node bin/server",
       "env": {
@@ -93,7 +98,6 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.3.13",
     "babel-runtime": "^6.11.6",
-    "better-npm-run": "^0.0.13",
     "css-loader": "^0.26.0",
     "cssnano": "^3.7.4",
     "debug": "^2.2.0",
@@ -127,6 +131,7 @@
     "babel-eslint": "^7.1.1",
     "babel-plugin-istanbul": "^3.0.0",
     "babel-polyfill": "^6.16.0",
+    "better-npm-run": "^0.0.13",
     "chai": "^3.4.1",
     "chai-as-promised": "^6.0.0",
     "chai-enzyme": "^0.6.1",
