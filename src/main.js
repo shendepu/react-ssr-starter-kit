@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom'
 import ReactDomServer from 'react-dom/server'
 import { ServerRouter, createServerRenderContext } from 'react-router'
 import { matchRoutesToLocation } from 'lib/react-router-addons-routes'
+import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
 import CoreLayout from './layouts/CoreLayout'
+
+import { login as loginGithub } from 'routes/Auth/modules/github/githubModule'
 
 require('es6-promise').polyfill()
 
@@ -17,7 +20,28 @@ class App {
     // Store Instantiation
     // ========================================================
     const initialState = window.___INITIAL_STATE__
-    this.store = createStore(initialState)
+    const networkInterface = createNetworkInterface({
+      uri: 'https://api.github.com/graphql'
+    })
+
+    this.client = new ApolloClient({
+      networkInterface
+    })
+    this.store = createStore(this.client, initialState)
+
+    const that = this
+    networkInterface.use([{
+      applyMiddleware (req, next) {
+        if (!req.options.headers) {
+          req.options.headers = {}  // Create the header object if needed.
+        }
+
+        // Send the login token in the Authorization header
+        req.options.headers.authorization = `Bearer ${that.store.getState().auth.github.token}`
+        next()
+      }
+    }])
+    loginGithub()(this.store.dispatch)
   }
 
   render () {
@@ -38,7 +62,7 @@ class App {
         // routes should be here and in require form so that HMR works
         const rootRoute = require('./routes/index').default(store)
         ReactDOM.render(
-          <AppContainer store={store} routes={rootRoute.routes} basePath={rootRoute.pattern} />,
+          <AppContainer store={store} client={this.client} routes={rootRoute.routes} basePath={rootRoute.pattern} />,
           MOUNT_NODE
         )
       }
@@ -82,6 +106,7 @@ class App {
         }
       }
     } else {
+      const that = this
       const context = createServerRenderContext()
       const requestUrl = window.__REQ_URL__ || '/'
       const location = { pathname: requestUrl }
@@ -99,6 +124,7 @@ class App {
                   action,
                   location,
                   store,
+                  client: that.client,
                   routes: rootRoute.routes,
                   basePath: rootRoute.pattern }} />}
             </ServerRouter>
