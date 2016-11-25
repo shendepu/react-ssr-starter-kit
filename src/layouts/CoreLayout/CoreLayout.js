@@ -8,7 +8,9 @@ import '../../styles/core.scss'
 
 const mapStateToProps = (state) => ({
   githubLoggedIn: state.auth.github.loggedIn,
-  githubToken: state.auth.github.token
+  githubToken: state.auth.github.token,
+  moquiLoggedIn: state.auth.moqui.loggedIn,
+  moquiApiKey: state.auth.moqui.apiKey
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -16,8 +18,8 @@ const mapDispatchToProps = (dispatch) => ({
   dispatch
 })
 
-export const CoreLayout = ({ basePath, routes, store, client, githubLoggedIn }) => {
-  return githubLoggedIn
+export const CoreLayout = ({ basePath, routes, store, client, moquiLoggedIn }) => {
+  return moquiLoggedIn
     ? <ApolloProvider store={store} client={client}>
       <div className='container text-center'>
         <Header />
@@ -46,7 +48,9 @@ CoreLayout.propTypes = {
   basePath: PropTypes.string,
   routes: PropTypes.array.isRequired,
   githubLoggedIn: PropTypes.bool,
-  githubToken: PropTypes.string
+  githubToken: PropTypes.string,
+  moquiLoggedIn: PropTypes.bool,
+  moquiApiKey: PropTypes.string
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout)

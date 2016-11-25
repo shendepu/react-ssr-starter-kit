@@ -1,3 +1,4 @@
+import 'whatwg-fetch'
 const base64 = require('base-64')
 
 const config = {
@@ -10,7 +11,8 @@ const AUTH_URL_PATH = 'https://api.github.com/authorizations'
 export function login (name, pwd) {
   const bytes = name.trim() + ':' + pwd.trim()
   const encoded = base64.encode(bytes)
-
+  console.log(name)
+  console.log(pwd)
   return fetch(AUTH_URL_PATH, {
     method: 'POST',
     headers: {
@@ -27,6 +29,7 @@ export function login (name, pwd) {
   })
     .then((response) => {
       const isValid = response.status < 400
+      console.log(response)
       return response.json().then((json) => {
         if (isValid) {
           return json.token

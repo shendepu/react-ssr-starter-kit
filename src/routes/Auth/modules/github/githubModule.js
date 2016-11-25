@@ -3,9 +3,9 @@ import { username, password } from 'lib/github/config'
 
 const GITHUB_GRAPHQL_API_LOGIN_IN_S = 'GITHUB_GRAPHQL_API_LOGIN_IN_S'
 
-export const login = () => disptch => {
+export const login = () => dispatch => {
   return loginGithub(username, password).then((token) => {
-    disptch({ type: GITHUB_GRAPHQL_API_LOGIN_IN_S, payload: { token } })
+    dispatch({ type: GITHUB_GRAPHQL_API_LOGIN_IN_S, payload: { token } })
   })
 }
 
