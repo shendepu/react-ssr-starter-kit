@@ -18,8 +18,8 @@ const mapDispatchToProps = (dispatch) => ({
   dispatch
 })
 
-export const CoreLayout = ({ basePath, routes, store, client, moquiLoggedIn }) => {
-  return moquiLoggedIn
+export const CoreLayout = ({ basePath, routes, store, client, githubLoggedIn }) => {
+  return githubLoggedIn
     ? <ApolloProvider store={store} client={client}>
       <div className='container text-center'>
         <Header />
