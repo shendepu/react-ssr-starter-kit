@@ -49,9 +49,19 @@ const config = {
   },
   compiler_vendors : [
     'react',
+    'react-dom',
+    'redux',
+    'redux-thunk',
     'react-redux',
     'react-router',
-    'redux'
+    'apollo-client',
+    'react-apollo',
+    'graphql-tag',
+    'base-64',
+    'debug',
+    'core-js',
+    'babel-polyfill',
+    'whatwg-fetch'
   ],
 
   // ----------------------------------

@@ -13,7 +13,7 @@ import CoreLayout from './layouts/CoreLayout'
 // import { login as loginGithub } from 'routes/Auth/modules/github/githubModule'
 import { login } from 'routes/Auth/modules/moqui/moquiModule'
 
-require('es6-promise').polyfill()
+// require('es6-promise').polyfill()
 
 class App {
   store = null
