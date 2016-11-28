@@ -15,7 +15,6 @@ export function login (name, pwd) {
   })
     .then((response) => {
       const isValid = response.status < 400
-      console.log(response)
       return response.text().then((apiKey) => {
         if (isValid) {
           return apiKey

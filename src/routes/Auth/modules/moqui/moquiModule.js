@@ -5,8 +5,6 @@ const MOQUI_REST_API_LOGIN_IN_S = 'MOQUI_REST_API_LOGIN_IN_S'
 
 export const login = () => dispatch => {
   return loginMoqui(username, password).then((apiKey) => {
-    console.log('dispatch action MOQUI_REST_API_LOGIN_IN_S')
-    console.log(apiKey)
     dispatch({ type: MOQUI_REST_API_LOGIN_IN_S, payload: { apiKey } })
     return apiKey
   })

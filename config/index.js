@@ -11,6 +11,7 @@ debug('Creating default configuration.')
 const config = {
   env : process.env.NODE_ENV || 'development',
   ssr : process.env.SSR || 'false',
+  deploy: process.env.DEPLOY || 'false',
 
   // ----------------------------------
   // Project Structure
@@ -85,7 +86,8 @@ config.globals = {
   '__TEST__'     : config.env === 'test',
   '__COVERAGE__' : !argv.watch && config.env === 'test',
   '__BASENAME__' : JSON.stringify(process.env.BASENAME || ''),
-  '__SSR__'      : config.ssr === 'true'
+  '__SSR__'      : config.ssr === 'true',
+  '__DEPLOY__'   : config.deploy === 'true'
 }
 
 // ------------------------------------
@@ -131,5 +133,6 @@ if (overrides) {
 } else {
   debug('No environment overrides found, defaults will be used.')
 }
-
+debug(process.env.DEPLOY)
+debug(config.compiler_public_path)
 module.exports = config

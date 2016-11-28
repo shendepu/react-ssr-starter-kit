@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactDomServer from 'react-dom/server'
+import BrowserRouter from 'react-router/BrowserRouter'
 import { ServerRouter, createServerRenderContext } from 'react-router'
 import { matchRoutesToLocation } from 'lib/react-router-addons-routes'
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { getDataFromTree } from 'react-apollo/server'
 import createStore from './store/createStore'
-import AppContainer from './containers/AppContainer'
+// import AppContainer from './containers/AppContainer'
 import CoreLayout from './layouts/CoreLayout'
 
 // import { login as loginGithub } from 'routes/Auth/modules/github/githubModule'
@@ -64,11 +65,21 @@ class App {
 
       render = () => {
         login()(this.store.dispatch)
-
+        const client = this.client
         // routes should be here and in require form so that HMR works
         const rootRoute = require('./routes/index').default(store)
         ReactDOM.render(
-          <AppContainer store={store} client={this.client} routes={rootRoute.routes} basePath={rootRoute.pattern} />,
+          <BrowserRouter>
+            {
+              ({ action, location, router }) => <CoreLayout {...{ router,
+                action,
+                location,
+                store,
+                client,
+                routes: rootRoute.routes,
+                basePath: rootRoute.pattern }} />
+            }
+          </BrowserRouter>,
           MOUNT_NODE
         )
       }

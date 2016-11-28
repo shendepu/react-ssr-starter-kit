@@ -19,6 +19,7 @@
     "test:dev": "npm run test -- --watch",
     "deploy": "better-npm-run deploy",
     "deploy:dev": "better-npm-run deploy:dev",
+    "deploy:dev-ssr": "better-npm-run deploy:dev-ssr",
     "deploy:prod": "better-npm-run deploy:prod",
     "deploy:prod-ssr": "better-npm-run deploy:prod-ssr",
     "copy:moqui": "better-npm-run copy:moqui",
@@ -41,6 +42,7 @@
     "deploy": {
       "command": "npm run lint && npm run test && npm run \"clean$SSR_SUFFIX\" && npm run compile",
       "env": {
+        "DEPLOY": "true",
         "DEBUG": "app:*"
       }
     },
@@ -48,6 +50,15 @@
       "command": "npm run deploy",
       "env": {
         "NODE_ENV": "development",
+        "DEBUG": "app:*"
+      }
+    },
+    "deploy:dev-ssr": {
+      "command": "npm run deploy",
+      "env": {
+        "NODE_ENV": "development",
+        "SSR": "true",
+        "SSR_SUFFIX": "-ssr",
         "DEBUG": "app:*"
       }
     },
