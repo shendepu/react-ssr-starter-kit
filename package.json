@@ -68,7 +68,7 @@
       }
     },
     "copy:moqui": {
-      "command": "rm -Rf $MOQUI_REACT_SSR_ROOT/dist && cp -R dist $MOQUI_REACT_SSR_ROOT && rm -Rf $MOQUI_REACT_SSR_ROOT/dsit_ssr && cp -R dist_ssr $MOQUI_REACT_SSR_ROOT",
+      "command": "rm -Rf $MOQUI_REACT_SSR_ROOT/dist && cp -R dist $MOQUI_REACT_SSR_ROOT && rm -Rf $MOQUI_REACT_SSR_ROOT/dist_ssr && cp -R dist_ssr $MOQUI_REACT_SSR_ROOT",
       "_comment": "Add .env file in root folder and configure set MOQUI_REACT_SSR_ROOT to parent folder dist and dist_ssr in moqui react ssr application."
     },
     "start": {
