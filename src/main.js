@@ -5,7 +5,7 @@ import BrowserRouter from 'react-router/BrowserRouter'
 import { ServerRouter, createServerRenderContext } from 'react-router'
 import { matchRoutesToLocation } from 'lib/react-router-addons-routes'
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
-import { getDataFromTree } from 'react-apollo/server'
+import { getDataFromTree } from 'react-apollo/lib/server'
 import createStore from './store/createStore'
 import CoreLayout from './layouts/CoreLayout'
 
