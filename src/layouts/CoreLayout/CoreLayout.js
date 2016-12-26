@@ -1,22 +1,37 @@
 import React, { PropTypes } from 'react'
-import { Provider } from 'react-redux'
+import { connect } from 'react-redux'
+import { ApolloProvider } from 'react-apollo'
 import { MatchWithRoutes } from 'lib/react-router-addons-routes'
 import Header from '../../components/Header'
 import './CoreLayout.scss'
 import '../../styles/core.scss'
 
-export const CoreLayout = ({ basePath, routes, store }) => (
-  <Provider store={store}>
-    <div className='container text-center'>
-      <Header />
-      <div className='core-layout__viewport'>
-        {routes.map((route, i) => (
-          <MatchWithRoutes key={i} {...route} parentPattern={basePath} />
-        ))}
+const mapStateToProps = (state) => ({
+  githubLoggedIn: state.auth.github.loggedIn,
+  githubToken: state.auth.github.token,
+  moquiLoggedIn: state.auth.moqui.loggedIn,
+  moquiApiKey: state.auth.moqui.apiKey
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  actions: {},
+  dispatch
+})
+
+export const CoreLayout = ({ basePath, routes, store, client, githubLoggedIn }) => {
+  return githubLoggedIn
+    ? <ApolloProvider store={store} client={client}>
+      <div className='container text-center'>
+        <Header />
+        <div className='core-layout__viewport'>
+          {routes.map((route, i) => (
+            <MatchWithRoutes key={i} {...route} parentPattern={basePath} />
+          ))}
+        </div>
       </div>
-    </div>
-  </Provider>
-)
+    </ApolloProvider>
+    : <div>Login...</div>
+}
 
 CoreLayout.propTypes = {
   router: PropTypes.object.isRequired,
@@ -29,8 +44,13 @@ CoreLayout.propTypes = {
     key: PropTypes.string
   }).isRequired,
   store: PropTypes.object.isRequired,
+  client: PropTypes.object,
   basePath: PropTypes.string,
-  routes: PropTypes.array.isRequired
+  routes: PropTypes.array.isRequired,
+  githubLoggedIn: PropTypes.bool,
+  githubToken: PropTypes.string,
+  moquiLoggedIn: PropTypes.bool,
+  moquiApiKey: PropTypes.string
 }
 
-export default CoreLayout
+export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout)

@@ -2,6 +2,7 @@
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import HomeRoute from './Home'
 import CounterRoute from './Counter/RouteAsync'
+import ApolloDemoRoute from './ApolloDemo/RouteAsync'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -23,7 +24,8 @@ export const createRoutes = (store) => ({
     HomeRoute,
     IndexHtmlRoute,
     Index2HtmlRoute,
-    CounterRoute(store)
+    CounterRoute(store),
+    ApolloDemoRoute(store)
   ]
 })
 

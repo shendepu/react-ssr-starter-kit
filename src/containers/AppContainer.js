@@ -7,7 +7,8 @@ class AppContainer extends Component {
   static propTypes = {
     basePath: PropTypes.string.isRequired,
     routes : PropTypes.array.isRequired,
-    store  : PropTypes.object.isRequired
+    store  : PropTypes.object.isRequired,
+    client : PropTypes.object
   }
 
   shouldComponentUpdate () {
@@ -15,12 +16,18 @@ class AppContainer extends Component {
   }
 
   render () {
-    const { basePath, routes, store } = this.props
+    const { basePath, routes, store, client } = this.props
 
     return (
       <BrowserRouter>
         {
-          ({ action, location, router }) => <Layout {...{ router, action, location, store, routes, basePath }} />
+          ({ action, location, router }) => <Layout {...{ router,
+            action,
+            location,
+            store,
+            client,
+            routes,
+            basePath }} />
         }
       </BrowserRouter>
     )

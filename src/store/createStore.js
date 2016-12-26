@@ -2,11 +2,11 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import makeRootReducer from './reducers'
 
-export default (initialState = {}) => {
+export default (apolloClient, initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk]
+  const middleware = [thunk, apolloClient.middleware()]
 
   // ======================================================
   // Store Enhancers
@@ -23,7 +23,7 @@ export default (initialState = {}) => {
   // Store Instantiation and HMR Setup
   // ======================================================
   const store = createStore(
-    makeRootReducer({}, initialState),
+    makeRootReducer(apolloClient, {}, initialState),
     initialState,
     compose(
       applyMiddleware(...middleware),
@@ -31,14 +31,15 @@ export default (initialState = {}) => {
     )
   )
   store.asyncReducers = {}
+  store.apolloClient = apolloClient
 
   // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
 //   store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').default
-      store.replaceReducer(reducers(store.asyncReducers))
+      const makeRootReducer = require('./reducers').default
+      store.replaceReducer(makeRootReducer(apolloClient, store.asyncReducers))
     })
   }
 
