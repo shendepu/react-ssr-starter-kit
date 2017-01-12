@@ -1,10 +1,11 @@
 import matchPattern from 'react-router/matchPattern'
 import { mergePatterns } from './util'
 
-const matchRoutesToLocation = (routes, location, matchedRoutes = [], params = {}, parentPattern = '/') => {
+const matchRoutesToLocation = (routes, location, matchedRoutes = [], params = {}, parentPattern = '') => {
   routes.forEach((route) => {
-    const nestedPattern = mergePatterns(parentPattern, route.pattern)
-    const match = matchPattern(nestedPattern, location, route.exactly)
+    const { exactly = false } = route
+    const nestedPattern = mergePatterns(parentPattern, route.pattern || '')
+    const match = !route.pattern ? true : matchPattern(nestedPattern, location, exactly)
 
     if (match) {
       matchedRoutes.push(route)
